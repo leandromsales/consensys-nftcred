@@ -1,1 +1,1 @@
-# consensys-nftcred
+# NFTCred
