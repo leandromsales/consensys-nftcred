@@ -1,7 +1,3 @@
-# 4Trade.io
-
-This is the repository for the 4Trade.io Solidity Smart Contract.
-
 ## Getting started
 
 We use Truffle Suite for develop, test and deploy, as well as Ganache for running a local Testnet.
