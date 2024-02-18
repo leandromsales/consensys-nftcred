@@ -14,8 +14,25 @@ This is a project developed as part of the interview process for a Senior Fullst
 - [x] presentations: ... has there own README.md
 - [x] web: ... has there own README.md
 
-## Features in a Nutshel
+## Features in a Nutshell
 
 ## TODO
 
 Please, read the file ``TODO.md`` of each root folder.
+
+## Get lEth
+
+### Faucets
+
+- https://linea.faucetme.pro/
+
+### Bridge goerli ether to linear
+
+- https://medium.com/@mbohlahcok22/tutorial-bridge-eth-from-goerli-to-linea-smart-contracts-fc91eaf3b10d
+- https://www.youtube.com/watch?v=UjPAjp-n0Zk
+- https://goerli.hop.exchange/
+- https://bridge.linea.build/
+
+## Hardhat
+
+`npx hardhat init`

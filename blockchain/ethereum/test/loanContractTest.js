@@ -1,114 +1,100 @@
-const truffleAssert = require('truffle-assertions');
+const { expect } = require("chai");
+const { anyValue } = require("@nomicfoundation/hardhat-chai-matchers/withArgs");
+const { ethers } = require("hardhat");
 
-const LoanContractArtifact = artifacts.require("LoanContract");
-const LoanTokenArtifact  = artifacts.require("LoanToken");
-const CollateralTokenArtifact  = artifacts.require("CollateralToken");
 
 function printVar(name, value) {
   console.log(`         ${name}: ${value}`);
 }
 
-function timeout(ms) {
+async function timeout(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-contract("LoanContract", (accounts) => {
-
+describe("LoanContract", function () {
   let loanContract;
   let loanTokenContract;
   let collateralTokenContract;
-  let nftId = "";
-  let loanId = "";
+  let accounts;
+  let nftId = 0;
+  let loanId = 0;
   let contractOwnerBalance;
   let userBalance;
 
-  const mintLoanTokenAmount = '1000000000';
-  const fee = '10000'; // in wei
-  const timeout = '2592000'; // in seconds
-  const amount = web3.utils.toBN('10000'); // in Loan Tokens (here we are simulating a NFTCred specific token)
-  const interestRate = '4'; // e.g. 4% of amount
-  const interest = amount.mul(web3.utils.toBN(interestRate)).div(web3.utils.toBN('100')); // value to charge as an interest rate (in Loan Token)
+  const mintLoanTokenAmount = ethers.parseUnits('1000000000', 18);
+  const fee = ethers.parseUnits('10000', 'wei'); // in wei
+  const timeoutPeriod = 2592000; // in seconds
+  const amount = ethers.parseUnits('10000', 18); // in Loan Tokens
+  const interestRate = 1n; // e.g. 1%
+  interest = amount * interestRate / 100n; // value to charge as an interest rate (in Loan Token)
 
-  before(async () => {
-    collateralTokenContract = await CollateralTokenArtifact.deployed();
-    loanContract = await LoanContractArtifact.deployed();
-    loanTokenContract = await LoanTokenArtifact.deployed();
+  before(async function () {
+    accounts = await ethers.getSigners();
+    const LoanContractArtifact = await ethers.getContractFactory("LoanContract");
+    const LoanTokenArtifact = await ethers.getContractFactory("LoanToken");
+    const CollateralTokenArtifact = await ethers.getContractFactory("CollateralToken");
 
-    await loanContract.disburseLoanToken(accounts[1], mintLoanTokenAmount, { from: accounts[0] });
+    loanContract = await LoanContractArtifact.deploy(accounts[0].address);
+    await loanContract.waitForDeployment();
 
-    let tx = await collateralTokenContract.mintNFT(accounts[1], 'empty', { from: accounts[0] })
-    truffleAssert.eventEmitted(tx, 'Mint', (ev) => {
-      nftId = ev.tokenId;
-      return true;
-    });
-    contractOwnerBalance = await web3.eth.getBalance(accounts[0]);
-    userBalance = await web3.eth.getBalance(accounts[1]);
+    const maxUint256 = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+    loanTokenContract = await LoanTokenArtifact.deploy(loanContract.target, maxUint256);
+    await loanTokenContract.waitForDeployment();
 
-    console.log(`    .  Contract Wallet: ${accounts[0]} (Balance: ${contractOwnerBalance})`);
-    console.log(`    .  User Wallet: ${accounts[1]} (Balance: ${userBalance})`);
+    await loanContract.setLoanTokenAddress(loanTokenContract.target);
+    await loanContract.disburseLoanToken(accounts[1].address, mintLoanTokenAmount);
+
+    collateralTokenContract = await CollateralTokenArtifact.deploy(accounts[0].address);
+
+    const tx = await collateralTokenContract.connect(accounts[0]).mintNFT(accounts[1].address, 'empty');
+    const receipt = await tx.wait();
+    nftId = receipt.logs[receipt.logs.length-1].args[1];
+
+    contractOwnerBalance = await ethers.provider.getBalance(accounts[0].address);
+    userBalance = await ethers.provider.getBalance(accounts[1].address);
+
+    console.log(`    .  Contract Wallet: ${accounts[0].address} (Balance: ${contractOwnerBalance})`);
+    console.log(`    .  User Wallet: ${accounts[1].address} (Balance: ${userBalance})`);
     console.log("");
   });
 
-  describe("Loan tests with collateral NFT", async () => {
+  describe("Loan tests with collateral NFT", function () {
 
-    it (`Should allow borrowing Loan Token (e.g. ${amount}), paying a fee (e.g. ${fee} wei), with interest rate (e.g. ${interestRate}%), timeout (e.g. ${timeout} seconds) and collaterate a NFT token`, async () => {
-      contractOwnerBalance = await web3.eth.getBalance(accounts[0]);
-      userBalance = await web3.eth.getBalance(accounts[1]);
+    it("Should allow borrowing Loan Token with NFT collateral", async function () {
+      contractOwnerBalance = await ethers.provider.getBalance(accounts[0].address);
 
-      await collateralTokenContract.approve(loanContract.address, nftId, {from: accounts[1]});
-      let tx = await loanContract.addLoan(collateralTokenContract.address, nftId, amount, fee, interest, timeout, {from: accounts[1], value: fee});
-      truffleAssert.eventEmitted(tx, 'LoanCreated', (ev) => {
-        loanId = ev.loanId;
-        return true;
-      });
+      await collateralTokenContract.connect(accounts[1]).approve(loanContract.target, nftId);
+      let tx = await loanContract.connect(accounts[1]).addLoan(collateralTokenContract.target, nftId, amount, fee, interest, timeoutPeriod, {value: fee});
+      let receipt = await tx.wait();
+      loanId = receipt.logs[receipt.logs.length-1].args[0];
 
       const tokenOwner = await collateralTokenContract.ownerOf(nftId);
-      assert.equal(loanContract.address, tokenOwner, `The expected owner of the token is ${loanContract.address}, but it is ${tokenOwner}.`);
-      
-      let contractBalanceExpected = web3.utils.toBN(contractOwnerBalance).add(web3.utils.toBN(fee));
-      contractOwnerBalance = await web3.eth.getBalance(accounts[0]);
+      expect(tokenOwner).to.equal(loanContract.target);
 
-      assert.equal(contractOwnerBalance, contractBalanceExpected, `The expected balance for the loan contract is ${contractBalanceExpected}, but it is ${contractOwnerBalance}`);
+      let contractBalanceExpected = contractOwnerBalance + fee;
+      newContractBalance = await ethers.provider.getBalance(accounts[0].address)
+      expect(newContractBalance).to.equal(contractBalanceExpected);
     });
 
-    it(`Should return a correct loan given its id`, async () => {
-      tx = await loanContract.getLoanById(loanId, {from: accounts[1]});
-      assert.equal(tx['borrowerAddress'], accounts[1], `borrowerAddress not expected`);
-      assert.equal(tx['collateralContractAddress'], collateralTokenContract.address, `collateralContractAddress not expected}`);
-      assert.equal(tx['collateralTokenId'], nftId, `collateralTokenId not expected}`);
-      assert.equal(tx['amount'], amount.toString(), `amount not expected}`);
-      assert.equal(tx['interest'], interest, `interest not expected}`);
-      assert.equal(tx['loanId'], loanId, `loanId not expected}`);
+    it("Should return a loan given its id", async function () {
+      const loan = await loanContract.getLoanById(loanId);
+      expect(loan[0]).to.equal(accounts[1].address);
+      expect(loan[1]).to.equal(collateralTokenContract.target);
+      expect(loan[2]).to.equal(nftId);
+      expect(loan[3]).to.equal(amount);
+      expect(loan[4]).to.equal(fee);
     });
 
-    it (`Should pay a loan by id, in this case using previous tested loan with id ${loanId}`, async () => {
+    it("Should pay a loan by id", async function () {
+      await loanTokenContract.connect(accounts[1]).approve(loanContract.target, amount + interest);
+      await loanContract.connect(accounts[1]).payLoan(loanId);
 
-      let initialOwner = await collateralTokenContract.ownerOf(nftId);
-      assert.equal(initialOwner, loanContract.address, "The LoanContract should hold the NFT initially");
+      const loan = await loanContract.getLoanById(loanId);
+      expect(loan.isPaid).to.be.true;
 
-      // const contractLoanTokenCurrentBalance = await loanTokenContract.balanceOf(loanContract.address);
-
-      const amountToRepay = amount.add(interest);
-      await loanTokenContract.approve(loanContract.address, amountToRepay, { from: accounts[1] });
-      let tx = await loanContract.payLoan(loanId, {from: accounts[1]});
-      truffleAssert.eventEmitted(tx, 'LoanPaid', (ev) => {
-        loanId = ev.loanId;
-        return true;
-      });
-
-      tx = await loanContract.getLoanById(loanId, {from: accounts[1]});
-      assert.notEqual(tx['isPaid'], 'true', `${loanId} is expected to be marked as paid`);
-
-      let finalOwner = await collateralTokenContract.ownerOf(nftId);
-      assert.equal(finalOwner, accounts[1], "The collateral NFT should be returned to the borrower");
-
-      // const contractLoanTokenNewBalance = await loanTokenContract.balanceOf(loanContract.address);
-      // console.log(`Old: ${contractLoanTokenCurrentBalance}`);
-      // console.log(`New: ${contractLoanTokenNewBalance}`);
-      // assert.equal(contractLoanTokenNewBalance, contractLoanTokenCurrentBalance.add(amountToRepay), "Balance of the loan contract not expected");
- 
+      const finalOwner = await collateralTokenContract.ownerOf(nftId);
+      expect(finalOwner).to.equal(accounts[1].address);
     });
 
   });
-
 });
