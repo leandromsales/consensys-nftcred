@@ -126,3 +126,15 @@ NFT Contract address: 0x137735Ae0aB6C69c6950c92441E96ACAE9a6542c
 26 - Loan Token amount must be greater than 0
 27 - Disburse failed
 28 - Loan does not exist
+
+## Useful links
+
+- https://goerli.lineascan.build/
+
+- https://docs.linea.build/use-mainnet/info-contracts
+
+- https://hardhat.org/hardhat-runner/plugins
+  
+- https://hardhat.org/hardhat-vscode/docs/overview
+  
+- https://hardhat.org/hardhat-vscode/docs/formatting#formatting-configuration

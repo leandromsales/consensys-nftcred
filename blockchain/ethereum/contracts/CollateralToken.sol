@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -7,15 +7,22 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import "@openzeppelin/contracts/utils/Pausable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract CollateralToken is ERC721URIStorage, Ownable, Pausable, ReentrancyGuard {
+contract CollateralToken is
+    ERC721URIStorage,
+    Ownable,
+    Pausable,
+    ReentrancyGuard
+{
     uint256 private _lastTokenId = 0;
 
-    constructor(address ownerAddress) ERC721("CollateralToken", "NCTTKN") Ownable(ownerAddress) {}
+    constructor(
+        address ownerAddress
+    ) ERC721("CollateralToken", "NCTTKN") Ownable(ownerAddress) {}
 
-    function mintNFT(address _recipient, string memory tokenURI)
-        public onlyOwner nonReentrant
-        returns (uint256)
-    {
+    function mintNFT(
+        address _recipient,
+        string memory tokenURI
+    ) public onlyOwner nonReentrant returns (uint256) {
         uint256 tokenId = ++_lastTokenId;
         _safeMint(_recipient, tokenId);
         _setTokenURI(tokenId, tokenURI);
@@ -29,7 +36,6 @@ contract CollateralToken is ERC721URIStorage, Ownable, Pausable, ReentrancyGuard
         _setTokenURI(tokenId, _tokenURI);
     }
 
-    
     /* ADMIN FUNCTIONS */
 
     function pause() public onlyOwner {
@@ -39,7 +45,6 @@ contract CollateralToken is ERC721URIStorage, Ownable, Pausable, ReentrancyGuard
     function unpause() public onlyOwner {
         _unpause();
     }
-
 
     /* EVENTS */
 
