@@ -4,7 +4,7 @@
 Fill in the details below to list your NFT for collateral or to request a loan. Provide your NFT and token contract addresses, specify the loan duration, and the amount you wish to borrow.
 
 <p align="center">
-  <img src="web/api/src/assets/logo.png" width="300" /></a>
+  <img src="web/api/v1/src/assets/logo.png" width="300" /></a>
 </p>
 
 ## Description
@@ -16,10 +16,6 @@ This is a project developed as part of the interview process for a Senior Fullst
 - [x] presentations: files related to my presentation during the interview process.
 
 ## Features in a Nutshell
-
-## TODO
-
-Please, read the file ``TODO.md`` of each root folder.
 
 ## Additional info and resources
 
