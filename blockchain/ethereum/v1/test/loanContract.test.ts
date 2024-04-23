@@ -22,12 +22,12 @@ describe("LoanContract", function () {
   let contractOwnerBalance = 0n;
   let userBalance = 0n;
 
-  const mintLoanTokenAmount = ethers.parseUnits('1000000000', 18);
-  const fee = ethers.parseUnits('10000', 'wei'); // in wei
+  const mintLoanTokenAmount = ethers.parseUnits('1000000000', 18); // amount distributed to the borrower (in Loan Tokens) via airdrop
+  const fee = ethers.parseUnits('10000', 'wei'); // in wei, charged by the contract to provide the lending service
   const timeoutPeriod = 2592000; // in seconds
-  const amount = ethers.parseUnits('10000', 18); // in Loan Tokens
-  const interestRate = 1n; // e.g. 1%
-  const interest = amount * interestRate / 100n; // value to charge as an interest rate (in Loan Token)
+  const amount = ethers.parseUnits('10000', 18); // amount to be borrowed (in Loan Tokens)
+  const interestRate = 1n; // e.g. 1% as an interest to be payed to the lender
+  const interest = amount * interestRate / 100n; // amount to charge as an interest rate (in Loan Token)
 
   before(async function () {
     const [lender, borrower] = await ethers.getSigners();
