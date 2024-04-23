@@ -1,7 +1,7 @@
 # NFTCred
 
 <p align="center">
-  <img src="web/api/v1/src/assets/logo.png" width="300" /></a>
+  <img src="services/api/v1/src/assets/logo.png" width="300" /></a>
 </p>
 
 ## Description

@@ -19,55 +19,43 @@ npm install -g aws-cdk
 npm install
 ```
 
-- É necessário possuir uma conta AWS com permissões necessárias configurada na AWS CLI com o nome de perfil "htm-edge". Mais detalhes no guia de operação.
+- It is necessary to have an AWS account with the necessary permissions configured in the AWS CLI under the profile name "nftcred".
 
-## Scripts auxiliares
+## Helper commands
 
-### Realizar o Synth das Stacks (Processo de verificação do código e recursos)
+### Perform the Synth of the Stacks (Code and resource verification process)
 
 ```console
 npm run sync
 ```
 
-### Listar os Stages da Stack
+### List the Stages of the Stack
 
 ```console
 npm run list
 ```
 
-### Rodar o diff em um Stage da Stack
+### Run the diff on a Stage of the Stack
 
 ```console
-npm run diff:<nome-da-Stack>
+npm run diff:<stack-name>
 ```
 
-### Rodar o diff em todos os Stages da Stack
+### Run the diff on all Stages of the Stack
 
 ```console
 npm run diff
-```
-
-### Realizar o deploy de Stage da Stack
-
-```console
-npm run build-dashboard
 ```
 
 ```console
 npm run deploy:<nome-da-Stack>
 ```
 
-### Realizar o deploy de todos os Stages da Stack
-
-```console
-npm run build-dashboard
-```
-
 ```console
 npm run deploy
 ```
 
-### Destruir a Stack de desenvolvimento (Não existe script para destruir a Stack de produção)
+### Destroy the development Stack (There is no script to destroy the production Stack)
 
 ```console
 npm run destroy
