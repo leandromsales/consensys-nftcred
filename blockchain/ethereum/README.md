@@ -1,46 +1,23 @@
-## Getting started
+# NFTCred Smart Contract
 
-We use Truffle Suite for develop, test and deploy, as well as Ganache for running a local Testnet.
+## Hardhat
 
-### Installing Truffle Suite
+`npx hardhat init`
 
-In order to install Truffle, execute the following command:
+## Using Hardhat
 
-```shell
-npm install truffle dotenv @truffle/hdwallet-provider @openzeppelin/contracts eth-gas-reporter truffle-assertions
-```
-
-### Installing Ganache
-
-In order to install Ganache, execute the following command:
-
-On Mac (Homebrew):
-```shell
-brew install ganache ganache-cli
-```
-
-On Mac (NPM):
-```shell
-npm install ganache ganache-cli -g
-```
-
-After installing Ganache, it will be available from your user application folder. To setup Ganache, just open it and create a new workspace with the default settings. Also, during setup, section workspace, click on add project and select this repository folder (cloned to your computer) in the list of projects. In the accounts & keys section, specify 100 as account default balance and at least 4 in the total accounts to generate. In the chain section, specify 80000000000 as gas price and select Petersburg as the Hardfork.
-
-## Using Truffle
-
-As default, Truffle reads the file `truffle-config.js` to perform commands, such as compile, test and deploy.
+As default, Truffle reads the file `harhat-config.js` to perform commands, such as compile, test and deploy.
 ### Compile Contract
 
 ```shell
-cd <this project root folder>
-truffle compile
+npx hardhat compile
 ```
 
-### Test
+### Test & verify
 
 ```shell
-cd <this project root folder>
-truffle test
+npx hardhat test
+npx hardhat verify --network linea <CONTRACT ADDRESS>
 ```
 
 ### Deploy Contract

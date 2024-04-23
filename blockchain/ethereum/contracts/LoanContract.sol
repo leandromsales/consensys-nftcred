@@ -148,7 +148,7 @@ contract LoanContract is IERC721Receiver, Ownable, Pausable, ReentrancyGuard {
         loanTokenContract = ILoanToken(_loanTokenAddress);
     }
 
-    function disburseLoanToken(address to, uint256 amount) public onlyOwner
+    function airdropLoanToken(address to, uint256 amount) public onlyOwner
     {
         require(loanTokenContract.transfer(to, amount), "Error 27");
     }
