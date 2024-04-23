@@ -9,7 +9,7 @@
 This is a project developed as part of the interview process for a Senior Fullstack Enablement Engineer at Consensys. It consists of a PoC assignment for developing an NFT Collateralized Lending/Borrowing Platform using Consensys Products. This mono repository contains is organized as following:
 
 - [x] blockchain: smart contract project in Ethereum to handle the lending/borrowing dynamics. Read the README.md file for more details.
-- [x] web: backend and frontend implementation of the platform. Read the README.md file for more details.
+- [x] services: backend and frontend implementation of the platform. Read the README.md file for more details.
 - [x] misc: contains misc files, such as my presentations during the interview process.
 
 ## Infrastructure: Deploy in AWS
