@@ -1,0 +1,51 @@
+{
+  "name": "@nftcred/infra",
+  "version": "1.0.0",
+  "bin": {
+    "web-platform": "index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "bootstrap": "npx cdk --profile nftcred bootstrap aws://457251804199/us-east-1",
+    "sync": "npx cdk --profile nftcred synth --all",
+    "build-api": "cd ./services/api/v1 && npm install && npm run build",
+    "build-app": "cd ./services/app/v1 && npm install && npm run build",
+    "deploy": "npx cdk --profile nftcred deploy NFTCredProd --all",
+    "deploy:dev": "npx cdk --profile nftcred deploy NFTCredDev",
+    "destroy": "npx cdk --profile nftcred destroy NFTCredDev",
+    "list": "npx cdk --profile nftcred list",
+    "diff": "npx cdk --profile nftcred diff",
+    "diff:dev": "npx cdk --profile nftcred diff NFTCredDev"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.119",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^16.18.14",
+    "crc": "^4.3.2",
+    "esbuild": "^0.17.11",
+    "jest": "^27.4.7",
+    "nanoid": "^5.0.2",
+    "prettier": "^3.0.3",
+    "ts-jest": "^27.1.3",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-apigatewayv2-alpha": "^2.85.0-alpha.0",
+    "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.85.0-alpha.0",
+    "@aws-sdk/client-s3": "^3.400.0",
+    "@aws-sdk/lib-dynamodb": "^3.398.0",
+    "@aws-sdk/s3-request-presigner": "^3.400.0",
+    "arg": "^5.0.2",
+    "aws-cdk": "latest",
+    "aws-cdk-lib": "latest",
+    "aws-lambda": "^1.0.7",
+    "cdk-assets": "latest",
+    "constructs": "^10.1.271",
+    "esm": "^3.2.25",
+    "source-map-support": "^0.5.21",
+    "ts-md5": "^1.3.1"
+  }
+}
