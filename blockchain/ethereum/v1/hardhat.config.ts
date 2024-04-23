@@ -1,7 +1,8 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
-
 import dotenv from "dotenv";
+
+dotenv.config({ path: '../../../.env.common' });
 dotenv.config();
 
 // task(
@@ -23,8 +24,8 @@ const config: HardhatUserConfig = {
       // }
     },
     linea: {
-      url: process.env.API_URL,
-      chainId: 59140,
+      url: process.env.RPC_URL,
+      chainId: parseInt(`${process.env.CHAIN_ID}`),
       // network_id: 5,
       gas: 6000000,
       loggingEnabled: true,

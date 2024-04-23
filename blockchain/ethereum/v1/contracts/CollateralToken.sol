@@ -30,12 +30,6 @@ contract CollateralToken is
         return tokenId;
     }
 
-    function setTokenURI(uint256 tokenId, string memory _tokenURI) public {
-        require(_lastTokenId >= tokenId, "Token ID does not exist");
-        require(ownerOf(tokenId) == msg.sender, "Caller is not the owner");
-        _setTokenURI(tokenId, _tokenURI);
-    }
-
     /* ADMIN FUNCTIONS */
 
     function pause() public onlyOwner {

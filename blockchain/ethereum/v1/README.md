@@ -1,5 +1,11 @@
 # NFTCred Smart Contract
 
+## General Rule:
+
+    - Fee to the contract is payed in Eth
+    - Money is lended in LoanToken
+    - Repayment = amount + interest
+
 ## Hardhat
 
 `npx hardhat init`
@@ -51,6 +57,7 @@ truffle migrate --network goerli
 ### Get Ethers
 
 - https://faucet.metamask.io/
+- https://www.covalenthq.com/faucet
 
 ## Current Contracts Info on Goerli
 
