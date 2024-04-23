@@ -1,8 +1,5 @@
 # NFTCred
 
-
-Fill in the details below to list your NFT for collateral or to request a loan. Provide your NFT and token contract addresses, specify the loan duration, and the amount you wish to borrow.
-
 <p align="center">
   <img src="web/api/v1/src/assets/logo.png" width="300" /></a>
 </p>
@@ -13,9 +10,11 @@ This is a project developed as part of the interview process for a Senior Fullst
 
 - [x] blockchain: smart contract project in Ethereum to handle the lending/borrowing dynamics. Read the README.md file for more details.
 - [x] web: backend and frontend implementation of the platform. Read the README.md file for more details.
-- [x] presentations: files related to my presentation during the interview process.
+- [x] misc: contains misc files, such as my presentations during the interview process.
 
-## Features in a Nutshell
+## Infrastructure: Deploy in AWS
+
+This project is managed using AWS CDK (Cloud Development Kit). For more details about how to deploy in AWS, please read `cloud/cdk/README.md`.
 
 ## Additional info and resources
 
