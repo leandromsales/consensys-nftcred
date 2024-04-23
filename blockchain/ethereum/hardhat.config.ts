@@ -1,18 +1,19 @@
-require('dotenv').config()
-require("@nomicfoundation/hardhat-toolbox");
-require("@nomicfoundation/hardhat-ethers");
+import { HardhatUserConfig } from "hardhat/config";
+import "@nomicfoundation/hardhat-toolbox";
 
-task(
-  "blockNumber",
-  "Prints the current block number",
-  async (_, { ethers }) => {
-    const blockNumber = await ethers.provider.getBlockNumber();
-    console.log("Current block number: " + blockNumber);
-  }
-);
+import dotenv from "dotenv";
+dotenv.config();
 
-/** @type import('hardhat/config').HardhatUserConfig */
-module.exports = {
+// task(
+//   "blockNumber",
+//   "Prints the current block number",
+//   async (_, { ethers }) => {
+//     const blockNumber = await ethers.provider.getBlockNumber();
+//     console.log("Current block number: " + blockNumber);
+//   }
+// );
+
+const config: HardhatUserConfig = {
   solidity: "0.8.24",
   defaultNetwork: "hardhat",
   networks: {
@@ -27,6 +28,7 @@ module.exports = {
       // network_id: 5,
       gas: 6000000,
       loggingEnabled: true,
+      // ether: "https://explorer.goerli.linea.build/"
       // accounts: [process.env.PRIVATE_KEY]
       // chainId?: number;
       // from?: string;
@@ -51,3 +53,5 @@ module.exports = {
     },
   }
 };
+
+export default config;
