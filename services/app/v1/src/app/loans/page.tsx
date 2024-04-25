@@ -1,14 +1,22 @@
 import Image from "next/image";
 
-export default function LoanForm() {
+const GetLoan = () => {
   return (
-    <main className="pt-16 p-8 flex flex-col items-center justify-center">
-      {/* Stylized Description Text */}
+    <div className="min-h-screen bg-gradient-to-br from-gray-200 via-white to-gray-200 dark:from-gray-800 dark:via-black dark:to-gray-800">
+      Get Loan
+    </div>
+  )
+};
+
+export default GetLoan;
+
+
+{/*
+<div className="pt-16 p-8 flex flex-col items-center justify-center">
       <p className="text-center max-w-4xl text-4xl font-bold text-white px-4 py-4 mb-8 font-hero">
         Use your NFTs to get a loan
       </p>
       <div className="flex w-full max-w-5xl gap-8 shadow-xl rounded-2xl overflow-hidden">
-        {/* Combined Form */}
         <div className="flex-1 p-4 bg-white dark:bg-gray-800 rounded-2xl">
           <h2 className="text-lg font-semibold">Lending and Borrowing Details</h2>
           <form className="space-y-4" id="loanForm">
@@ -36,7 +44,7 @@ export default function LoanForm() {
             </div>
           </form>
         </div>
-        {/* Placeholder for NFT Image */}
+
         <div className="flex-1 bg-gray-100 dark:bg-gray-700 rounded-2xl flex items-center justify-center">
           <Image
             src="/placeholder-nft.png"
@@ -48,6 +56,5 @@ export default function LoanForm() {
         </div>
       </div>
       <button type="submit" form="loanForm" className="mt-8 px-6 py-3 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Submit</button>
-    </main>
-  );
-}
+    </div>
+*/}

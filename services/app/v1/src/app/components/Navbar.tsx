@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-export default function Header() {
+export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 w-full bg-white dark:bg-gray-800 shadow-md z-50">
       <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
@@ -17,9 +17,9 @@ export default function Header() {
         </div>
         <nav>
           <ul className="flex space-x-4">
+            <li><Link href="/loans">Get a loan</Link></li>
             <li><Link href="/offers">My Offers</Link></li>
-            <li><Link href="/loans">My Loans</Link></li>
-            <li><Link href="/listoffers">List all Offers</Link></li>
+            <li><Link href="/allOffers">All Offers</Link></li>
           </ul>
         </nav>
       </div>
