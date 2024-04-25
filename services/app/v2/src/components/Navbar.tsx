@@ -174,7 +174,7 @@ export default function Navbar() {
     <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
       <div className="flex items-center mr-8">
         <Image
-          src="/nftcred-logo.png"
+          src="/logo.png"
           alt="NFTCred Logo"
           width={333.96}
           height={80.15}
